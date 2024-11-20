@@ -18,7 +18,7 @@ public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository;
 
-    @GetMapping("/") //might expect a /
+    @GetMapping("/")
     public String index(Model model){ //index also implies it is at the root for that controller
         model.addAttribute("employers",employerRepository.findAll());
         return "employers/index";
