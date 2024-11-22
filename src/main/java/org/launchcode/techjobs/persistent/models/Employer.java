@@ -13,7 +13,7 @@ import java.util.List;
 public class Employer extends AbstractEntity {
 
     @NotBlank
-    @Size(max = 50)
+    @Size(min = 1, max = 50, message = "location must be between 1 and 50 characters long.")
     public String location;
 
     @OneToMany//(mappedBy = "employer") //how does hibernate know which jobs are in a given employer? Name of field

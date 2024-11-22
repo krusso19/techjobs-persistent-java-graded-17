@@ -50,34 +50,17 @@ public class HomeController {
         return "add";
     }
 
-
-//    @GetMapping("add-tag")
-//    public String displayAddTagForm(@RequestParam Integer eventId, Model model){
-//        Optional<Event> result = eventRepository.findById(eventId);
-//        Event event = result.get();
-//        model.addAttribute("Title", "Add Tag to: " + event.getName()); //create title on webpage
-//        model.addAttribute("tags", tagRepository.findAll()); //for drop down list of tags
-//        //model.addAttribute("event", event); //which event are you adding the tag to?
-//        EventTagDTO eventTag = new EventTagDTO();
-//        eventTag.setEvent(event);
-//        model.addAttribute("eventTag", new EventTagDTO()); //pass in single object to validate not both
-//        return "events/add-tag.html"; //reference to template
-//    }
-
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
                                        Errors errors, Model model,
-                                    @RequestParam(required = false) Integer employerId,
-                                    @RequestParam(required = false) List<Integer> skills) {
+                                    @RequestParam int employerId,
+                                    @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
 	    model.addAttribute("title", "Add Job");
             return "add";
         }
 
-        if (employerId == null){
-            jobRepository.save(newJob);
-        } else {
             Optional<Employer> employerResult = employerRepository.findById((employerId));
             if (employerResult.isEmpty()){
                 jobRepository.save(newJob);
@@ -85,20 +68,11 @@ public class HomeController {
                 Employer employer = employerResult.get();
                 newJob.setEmployer(employer);
             }
-        }
 
-        if (skills == null){
-            jobRepository.save(newJob);
-        } else {
+
             List<Skill> skillResult = (List<Skill>) skillRepository.findAllById(skills); //given
             newJob.setSkills(skillResult); //given
-//            if (skillResult.isEmpty()) {//do I need an if/else here for if skills is empty? like above
-//                jobRepository.save(newJob);
-//            } else {
-//                List<Skill> skillList = skillResult.get();
-//                newJob.setSkills(skillList);
-//            }
-        }
+
 
         jobRepository.save(newJob);
 
@@ -111,7 +85,13 @@ public class HomeController {
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
-
+        Optional<Job> jobResult = jobRepository.findById(jobId);
+        if (jobResult.isEmpty()){
+            return "redirect: ";
+        } else {
+            Job job = jobResult.get();
+            model.addAttribute("job", job);
+        }
             return "view";
     }
 

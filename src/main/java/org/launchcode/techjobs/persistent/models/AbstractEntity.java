@@ -18,7 +18,7 @@ public abstract class AbstractEntity {
     private int id;
 
     @NotBlank
-    @Size (max = 150)
+    @Size (min = 1, max = 150, message = "name must be between 1 and 150.")
     private String name;
 
     public AbstractEntity(int id, String name) {
