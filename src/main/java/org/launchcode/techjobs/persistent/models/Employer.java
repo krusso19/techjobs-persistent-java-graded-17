@@ -20,20 +20,18 @@ public class Employer extends AbstractEntity {
     @JoinColumn(name = "employer_id") //says you can't have both?
     private final List<Job> jobs = new ArrayList<>();
 
-    public Employer (String location) {
+    public Employer (String location) { //might not be necessary
         super();
         this.location = location;
 
     }
     public Employer () {} //no arg constructor required for hibernate
 
-    @NotBlank @Size(max = 50)
     public String getLocation() {
         return location;
     }
 
-    @NotBlank @Size(max = 50)
-    public void setLocation(String location) {
+        public void setLocation(String location) {
         this.location = location;
     }
 

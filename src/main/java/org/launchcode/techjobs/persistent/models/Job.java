@@ -14,10 +14,6 @@ import java.util.Optional;
 @Entity
 public class Job extends AbstractEntity{
 
-    @Autowired
-    public SkillRepository skillRepository;
-
-
     @ManyToOne
     private Employer employer;
 
